@@ -1,0 +1,226 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <world name="soccer_field">
+
+    <!-- Sun -->
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <!-- Textured soccer field -->
+    <include>
+      <uri>model://field_texture</uri>
+      <pose>0 0 0 0 0 0</pose>
+    </include>
+
+     <!-- Orange soccer ball -->
+  <model name="soccer_ball">
+    <pose>2 0 0.11 0 0 0</pose>
+    <link name="ball">
+
+      <!-- Make ball much lighter & more responsive -->
+      <inertial>
+        <mass>0.05</mass>  <!-- was 0.43 -->
+        <inertia ixx="0.0001" ixy="0" ixz="0"
+                 iyy="0.0001" iyz="0"
+                 izz="0.0001"/>
+      </inertial>
+
+      <collision name="ball_collision">
+        <geometry>
+          <sphere><radius>0.11</radius></sphere>
+        </geometry>
+
+        <surface>
+          <friction>
+            <ode>
+              <mu>0.05</mu>     <!-- low friction -->
+              <mu2>0.05</mu2>
+            </ode>
+          </friction>
+
+          <bounce>
+            <restitution_coefficient>0.8</restitution_coefficient> <!-- bouncy -->
+            <threshold>0.1</threshold>
+          </bounce>
+        </surface>
+      </collision>
+
+      <visual name="ball_visual">
+        <geometry>
+          <sphere><radius>0.11</radius></sphere>
+        </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Orange</name>
+          </script>
+        </material>
+      </visual>
+
+    </link>
+  </model>
+
+
+    <!-- ========================= -->
+    <!--         GOALS             -->
+    <!-- ========================= -->
+
+    <model name="goal_right_long">
+      <static>true</static>
+      <pose>4.4 0 0.5 0 0 1.5708</pose>
+
+      <link name="frame">
+        <visual name="goal_right_visual">
+          <geometry>
+            <box><size>2.0 0.1 1.0</size></box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/White</name>
+            </script>
+          </material>
+        </visual>
+
+        <collision name="goal_right_collision">
+          <geometry>
+            <box><size>2.0 0.1 1.0</size></box>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+    <model name="goal_left_long">
+      <static>true</static>
+      <pose>-4.4 0 0.5 0 0 -1.5708</pose>
+
+      <link name="frame">
+        <visual name="goal_left_visual">
+          <geometry>
+            <box><size>2.0 0.1 1.0</size></box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/White</name>
+            </script>
+          </material>
+        </visual>
+
+        <collision name="goal_left_collision">
+          <geometry>
+            <box><size>2.0 0.1 1.0</size></box>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+
+    <!-- ========================= -->
+    <!--          WALLS            -->
+    <!-- ========================= -->
+
+    <model name="wall_top">
+      <static>true</static>
+      <pose>0 3.1 0.25 0 0 0</pose>
+
+      <link name="wall">
+        <visual name="wall_top_visual">
+          <geometry>
+            <box><size>9.2 0.1 0.5</size></box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Black</name>
+            </script>
+          </material>
+        </visual>
+
+        <collision name="wall_top_collision">
+          <geometry>
+            <box><size>9.2 0.1 0.5</size></box>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+    <model name="wall_bottom">
+      <static>true</static>
+      <pose>0 -3.1 0.25 0 0 0</pose>
+
+      <link name="wall">
+        <visual name="wall_bottom_visual">
+          <geometry>
+            <box><size>9.2 0.1 0.5</size></box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Black</name>
+            </script>
+          </material>
+        </visual>
+
+        <collision name="wall_bottom_collision">
+          <geometry>
+            <box><size>9.2 0.1 0.5</size></box>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+    <model name="wall_right">
+      <static>true</static>
+      <pose>4.6 0 0.25 0 0 0</pose>
+
+      <link name="wall">
+        <visual name="wall_right_visual">
+          <geometry>
+            <box><size>0.1 6.2 0.5</size></box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Black</name>
+            </script>
+          </material>
+        </visual>
+
+        <collision name="wall_right_collision">
+          <geometry>
+            <box><size>0.1 6.2 0.5</size></box>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+    <model name="wall_left">
+      <static>true</static>
+      <pose>-4.6 0 0.25 0 0 0</pose>
+
+      <link name="wall">
+        <visual name="wall_left_visual">
+          <geometry>
+            <box><size>0.1 6.2 0.5</size></box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Black</name>
+            </script>
+          </material>
+        </visual>
+
+        <collision name="wall_left_collision">
+          <geometry>
+            <box><size>0.1 6.2 0.5</size></box>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+  </world>
+</sdf>
+

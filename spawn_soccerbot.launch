@@ -1,0 +1,60 @@
+<launch>
+
+  <param name="/use_sim_time" value="true" />
+
+  <!-- Gazebo -->
+  <node name="gazebo" pkg="gazebo_ros" type="gzserver"
+        args="$(find soccerbot_description)/worlds/soccer_field.world --verbose"
+        output="screen" />
+
+  <node name="gazebo_gui" pkg="gazebo_ros" type="gzclient" output="screen" />
+<node pkg="soccerbot"
+      type="ball_boundary_repulsion.py"
+      name="ball_reset_node"
+      output="screen">
+    <!-- tune these if needed -->
+    <param name="field_x" value="2.6" />
+    <param name="field_y" value="1.4" />
+    <param name="reset_x" value="0.0" />
+    <param name="reset_y" value="0.0" />
+    <!-- if you know exact ball name in Gazebo, put it here -->
+    <!-- <param name="ball_name" value="soccer_ball" /> -->
+</node>
+
+
+  <!-- ================= BLUE BOT ================= -->
+
+  <!-- Load URDF into /blue/robot_description -->
+  <param name="/blue/robot_description"
+         textfile="$(find soccerbot_description)/urdf/soccerbot.urdf" />
+
+  <!-- Spawn -->
+  <node name="spawn_bluebot" pkg="gazebo_ros" type="spawn_model"
+        args="-urdf -model soccerbot_blue -param /blue/robot_description -x 0 -y 1 -z 0.15"
+        launch-prefix="bash -c 'sleep 2; $0 $@'"
+        output="screen" />
+
+  <!-- State publisher -->
+  <node ns="blue" name="bluebot_state_pub" pkg="robot_state_publisher"
+        type="robot_state_publisher" output="screen">
+    <param name="publish_frequency" value="50" />
+  </node>
+
+
+  <!-- ================= RED BOT ================= -->
+
+  <param name="/red/robot_description"
+         textfile="$(find soccerbot_description)/urdf/soccerbot_red.urdf" />
+
+  <node name="spawn_redbot" pkg="gazebo_ros" type="spawn_model"
+        args="-urdf -model soccerbot_red -param /red/robot_description -x 0 -y -1 -z 0.15"
+        launch-prefix="bash -c 'sleep 4; $0 $@'"
+        output="screen" />
+
+  <node ns="red" name="redbot_state_pub" pkg="robot_state_publisher"
+        type="robot_state_publisher" output="screen">
+    <param name="publish_frequency" value="50" />
+  </node>
+
+</launch>
+

@@ -1,0 +1,6 @@
+<launch>
+    <node pkg="soccerbot_description"
+          type="teleop_both.py"
+          name="dual_teleop"
+          output="screen" />
+</launch>
